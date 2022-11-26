@@ -109,7 +109,7 @@ app.post('/agregar-usuario',(req,res) => {
     })
 })
 
-//Api para actualizar al usuario
+//Api para actualizar al usuarios
 app.put('/actualizar-usuario/:usuarioId',(req, res) => {
     const id = req.params
     const {nombre,usuario} = req.body 
