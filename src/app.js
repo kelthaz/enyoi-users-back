@@ -25,29 +25,29 @@ const  obtenerUsuario = () => {
     }
 }
 
-app.use((req, res, next) => {
-    const usuarioPermitido = obtenerUsuario() 
-    req.locals = {
-        usuarioPermitido
-    }
-    next()
-})
+// app.use((req, res, next) => {
+//     const usuarioPermitido = obtenerUsuario() 
+//     req.locals = {
+//         usuarioPermitido
+//     }
+//     next()
+// })
 
-const middlwareAgregarUsuario = (req, res, next) => {
-    console.log(' Se ejecuto el middlwareAgregarUsuario')
-    const usuarioPermitido = obtenerUsuario() 
-    //middleware para agregar usuario
-    if (usuarioPermitido.usuario === "Cd" ){
-        req.locals = {
-            usuarioPermitido,
-        }
-        next()
-    } else {
-        req.locals = 'Usuario sin permisos'
-        console.log('Usuario no permitido')
-        next()
-    }
-}
+// const middlwareAgregarUsuario = (req, res, next) => {
+//     console.log(' Se ejecuto el middlwareAgregarUsuario')
+//     const usuarioPermitido = obtenerUsuario() 
+//     //middleware para agregar usuario
+//     if (usuarioPermitido.usuario === "Cd" ){
+//         req.locals = {
+//             usuarioPermitido,
+//         }
+//         next()
+//     } else {
+//         req.locals = 'Usuario sin permisos'
+//         console.log('Usuario no permitido')
+//         next()
+//     }
+// }
 
 app.get('/', (req,res) => {
     res.send('Bienvenidos al inicio')
