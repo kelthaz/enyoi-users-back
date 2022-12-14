@@ -1,5 +1,4 @@
 import { pool } from './db.js'
-const config = require('dotenv')
 const express = require('express')
 const mysql = require('mysql')
 
