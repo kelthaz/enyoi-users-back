@@ -1,4 +1,4 @@
-
+import { pool } from './db.js'
 const config = require('dotenv')
 const express = require('express')
 const mysql = require('mysql')
@@ -63,10 +63,10 @@ app.get('/', (req,res) => {
 })
 
 //Api para traer todos los usuarios 
-app.get('/usuarios', (req, res) => {
+app.get('/usuarios',async (req, res) => {
     const sql = 'SELECT * FROM usuarios'
 
-    conexionBD.query(sql, (error, results) => {
+    await pool.query(sql, (error, results) => {
       if (error) throw error
 
       if (results.length > 0) {
@@ -79,11 +79,11 @@ app.get('/usuarios', (req, res) => {
 })
 
 // Api para traer solo un usuario por ID 
-app.get('/usuario/:idusuario', (req, res) => {
+app.get('/usuario/:idusuario',async (req, res) => {
     const id = req.params
     const sql = `SELECT * FROM usuarios WHERE  idusuarios = ${id.idusuario}`
 
-    conexionBD.query(sql, (error, result) => {
+    await pool.query(sql, (error, result) => {
         if (error) throw error
 
         if(result.length > 0){
@@ -96,7 +96,7 @@ app.get('/usuario/:idusuario', (req, res) => {
 
 
 // Api para crear usuarios
-app.post('/agregar-usuario',(req,res) => {
+app.post('/agregar-usuario', async(req,res) => {
     const sql = 'INSERT INTO usuarios SET ?'
 
     const usuarioObj = {
@@ -105,7 +105,7 @@ app.post('/agregar-usuario',(req,res) => {
       usuario : req.body.usuario,
     }
 
-    conexionBD.query(sql, usuarioObj, error => {
+    await pool.query(sql, usuarioObj, error => {
       if (error) throw error
 
       res.send('Usuario creado con exito!')
@@ -113,13 +113,13 @@ app.post('/agregar-usuario',(req,res) => {
 })
 
 //Api para actualizar al usuarios
-app.put('/actualizar-usuario/:usuarioId',(req, res) => {
+app.put('/actualizar-usuario/:usuarioId', async(req, res) => {
     const id = req.params
     const {nombre,usuario} = req.body 
 
     const sql = `UPDATE usuarios SET nombre = '${nombre}', usuario = '${usuario}' where idusuarios = ${id.usuarioId}`
 
-    conexionBD.query(sql, error => {
+    await pool.query(sql, error => {
       if (error) throw error
 
       res.send('Usuario actualizado con exito!')
@@ -127,11 +127,11 @@ app.put('/actualizar-usuario/:usuarioId',(req, res) => {
 })
 
 //Api para eliminar un usuario
-app.delete('/eliminar-usuario/:usuarioId', (req, res) => {
+app.delete('/eliminar-usuario/:usuarioId', async(req, res) => {
     const id = req.params
     const sql = `DELETE FROM usuarios where idusuarios = ${id.usuarioId}`
 
-    conexionBD.query(sql, error => {
+    await pool.query(sql, error => {
       if (error) throw error
 
       res.send('Usuario eliminado con exito!')
@@ -139,8 +139,8 @@ app.delete('/eliminar-usuario/:usuarioId', (req, res) => {
 })
 
 //El puerto esta activo
-app.listen(3001, () => {
-    console.log('Servidor en el puerto 3001')
+app.listen(PORT, () => {
+    console.log(`Servidor en el puerto ${PORT}`)
 })
 
 // CRUD
