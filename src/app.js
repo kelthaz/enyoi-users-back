@@ -55,17 +55,19 @@ app.get('/', (req,res) => {
 
 //Api para traer todos los usuarios 
 app.get('/usuarios',async (req, res) => {
-    const sql = 'SELECT * FROM usuarios'
+    // const sql = 'SELECT * FROM usuarios'
+    const [result] = await pool.query(`SELECT * FROM usuarios`);
+    res.json(result[0])
 
-    await pool.query(sql, (error, results) => {
-      if (error) throw error
+    // await pool.query(sql, (error, results) => {
+    //   if (error) throw error
 
-      if (results.length > 0) {
-        res.json(results)
-      } else {
-        res.send('No hay datos disponibles')
-      }
-    })
+    //   if (results.length > 0) {
+    //     res.json(results)
+    //   } else {
+    //     res.send('No hay datos disponibles')
+    //   }
+    // })
     // res.send('Esta es la lista de usuarios')
 })
 
